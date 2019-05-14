@@ -10,3 +10,9 @@ func Awal (c echo.Context) error {
       "a": "a",
   })
 }
+
+func Ui (c echo.Context) error {
+  return c.Render(http.StatusOK, "ui.html", map[string]interface{}{
+      "a": "a",
+  })
+}

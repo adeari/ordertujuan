@@ -37,6 +37,7 @@ func main() {
     e.Renderer = renderer
     
     e.GET("/", klass.Awal)
+    e.GET("/ui", klass.Ui)
     
     
 	e.Logger.Fatal(e.Start(":8822"))
