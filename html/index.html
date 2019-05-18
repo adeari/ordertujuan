@@ -14,6 +14,16 @@
     <link href="https://fonts.googleapis.com/css?family=Karla:400,700" rel="stylesheet">
     <!-- favicon.ico. Place these in the root directory. -->
     <link rel="shortcut icon" href="favicon.ico">
+    
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link href="js/air-datepicker/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <script src="js/air-datepicker/js/datepicker.min.js"></script>
+
+        <!-- Include English language -->
+    <script src="js/air-datepicker/js/i18n/datepicker.en.js"></script>
+        
+        
 </head>
     <body>
 
@@ -42,58 +52,53 @@
                 <form>
                     <div class="grid-row">
                         <div class="grid-column span-half mt1">
-                            <label class="label" for="name">Nama</label>
-                            <input class="form-control" id="name">
+                            <label class="label" for="nama">Nama</label>
+                            <input class="form-control" id="nama" name="nama">
                         </div>
                         <div class="grid-column span-half mt1">
-                            <label class="label" for="email">Handphone</label>
-                            <input class="form-control" id="email" type="email">
+                            <label class="label" for="hp">Handphone</label>
+                            <input class="form-control" id="hp" name="hp">
                         </div>
-                    </div>
-                    <label class="label mt1" for="dates">Tujuan</label>
-                    <div class="select mt1">
-                        <select>
-                            <option>Surabaya</option>
-                            <option>Jakarta</option>
-                            <option>Bandung</option>
-                        </select>
+                        
                     </div>
                     
-                    <label class="label mt1" for="dates">Waktu</label>
-                    <div class="margintopbottom10 mt1">
-                        <select>
-                            <option>01</option>
-                            <option>02</option>
-                            <option>Bandung</option>
-                        </select>
-                        <select>
-                            <option>Januari</option>
-                            <option>02</option>
-                            <option>Bandung</option>
-                        </select>
-                        <select>
-                            <option>2019</option>
-                            <option>209</option>
-                            <option>Bandung</option>
-                        </select>
-                        &nbsp;Jam 
-                        <select>
-                            <option>01</option>
-                            <option>02</option>
-                            <option>03</option>
-                        </select>:
-                        <select>
-                            <option>01</option>
-                            <option>02</option>
-                            <option>03</option>
-                        </select>
+                    <div class="grid-row">
+                      <div class="grid-column mt1">
+                          <label class="label" for="email">Email</label>
+                          <input class="form-control" id="email" type="email">
+                      </div>
                     </div>
-                    <label class="label mt1" for="dates">Merk mobil</label>
+                    
+                    <div class="grid-row">
+                      <div class="grid-column mt1">
+                          <label class="label" for="waktupickup">Waktu pickup</label><br>
+                          <input type='text' name="waktupickup" class="datepicker-here" data-timepicker="true" data-language='en' data-position="right top" data-auto-close="true"  data-date-format='dd MM yyyy' data-time-format='hh:ii aa' style="width:100%;"/>
+                      </div>
+                    </div>
+                    <div class="grid-row">
+                      <div class="grid-column mt1">
+                          <label class="label" for="waktudropoff">Waktu Drop off</label><br>
+                          <input type='text' name="waktudropoff" class="datepicker-here" data-timepicker="true" data-language='en' data-position="right top" data-auto-close="true"  data-date-format='dd MM yyyy' data-time-format='hh:ii aa' style="width:100%;"/>
+                      </div>
+                    </div>
+                    
+                    <label class="label mt1">Tujuan </label>
                     <div class="select mt1">
                         <select>
-                            <option>Toyota</option>
-                            <option>Avanza</option>
-                            <option>Mazda</option>
+                            {{index . "kotanyaoptionstr"}}
+                        </select>
+                    </div>
+                    <label class="label mt1">Dikembalikan di </label>
+                    <div class="select mt1">
+                        <select>
+                            {{index . "kotadikembalikannyaoptionstr"}}
+                        </select>
+                    </div>
+                                        
+                    <label class="label mt1">Merk mobil</label>
+                    <div class="select mt1">
+                        <select>
+                            {{index . "mobiloptions"}}
                         </select>
                     </div>
                     <label class="label mt1" for="message">Pesan</label>
@@ -187,7 +192,6 @@
             <p>&copy; Copyrightnyaapaya?</p>
         </div>
     </footer>
-
     </body>
 </html>
 

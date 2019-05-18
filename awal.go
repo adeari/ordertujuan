@@ -40,5 +40,5 @@ func main() {
     e.GET("/ui", klass.Ui)
     
     
-	e.Logger.Fatal(e.Start(":8822"))
+	e.Logger.Fatal(e.Start(klass.WEBPORT))
 } 

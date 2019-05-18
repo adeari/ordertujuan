@@ -3,6 +3,7 @@ Pesanan teman kuliah Ali
 
 install
 $ go get -u github.com/labstack/echo
+install go for "github.com/go-sql-driver/mysql""
 
 untuk service agar jalan di background go lang
 copy file angkot.service ke /lib/systemd/system
