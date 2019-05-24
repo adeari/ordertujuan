@@ -10,6 +10,12 @@ import (
     "fmt"
 )
 
+type TbMobil struct {
+    Id int `json:"id"`
+    Merk  string `json:"merk"`
+    Sewaperhari float64 `json:"sewa_perhari"`
+}
+
 func Awal (c echo.Context) error {
   db, _ := sql.Open("mysql", DB_USER+":"+DB_PASS+"@tcp("+DB_HOST+":"+DB_PORT+")/"+DB_NAME)
   defer db.Close()
@@ -29,18 +35,21 @@ func Awal (c echo.Context) error {
   rowmobils, _ := db.Query("SELECT id,merk,sewaperhari FROM tb_mobil ORDER BY merk")
   defer rowmobils.Close()
   mobiloptions := ""
+  var tabelmobils []TbMobil
   for rowmobils.Next() {
     id:=0
     merk:=""
     var sewaperhari float64
     rowmobils.Scan(&id, &merk, &sewaperhari)
-    mobiloptions +=  "<option value="+strconv.Itoa(id)+">"+merk+" @ Rp "+FormatThousand(fmt.Sprintf("%.f", sewaperhari))+" /hari</option>"
+    tabelmobils = append(tabelmobils, TbMobil {Id:id, Merk: merk, Sewaperhari: sewaperhari}) 
+    mobiloptions +=  "<option value="+strconv.Itoa(id)+">"+merk+" @Rp "+FormatThousand(fmt.Sprintf("%.f", sewaperhari))+" /hari</option>"
   }
   
   return c.Render(http.StatusOK, "index.html", map[string]interface{}{
       "kotadikembalikannyaoptionstr": template.HTML(kotadikembalikannyaoptionstr),
       "kotanyaoptionstr": template.HTML(kotanyaoptionstr),
       "mobiloptions": template.HTML(mobiloptions),
+      "tabelmobils": tabelmobils,
   })
 }
 

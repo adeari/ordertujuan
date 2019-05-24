@@ -21,9 +21,7 @@
     <script src="js/air-datepicker/js/datepicker.min.js"></script>
 
         <!-- Include English language -->
-    <script src="js/air-datepicker/js/i18n/datepicker.en.js"></script>
-        
-        
+    <script src="js/air-datepicker/js/i18n/datepicker.ina.js"></script>
 </head>
     <body>
 
@@ -69,38 +67,45 @@
                       </div>
                     </div>
                     
-                    <div class="grid-row">
-                      <div class="grid-column mt1">
-                          <label class="label" for="waktupickup">Waktu pickup</label><br>
-                          <input type='text' name="waktupickup" class="datepicker-here" data-timepicker="true" data-language='en' data-position="right top" data-auto-close="true"  data-date-format='dd MM yyyy' data-time-format='hh:ii aa' style="width:100%;"/>
-                      </div>
-                    </div>
-                    <div class="grid-row">
-                      <div class="grid-column mt1">
-                          <label class="label" for="waktudropoff">Waktu Drop off</label><br>
-                          <input type='text' name="waktudropoff" class="datepicker-here" data-timepicker="true" data-language='en' data-position="right top" data-auto-close="true"  data-date-format='dd MM yyyy' data-time-format='hh:ii aa' style="width:100%;"/>
-                      </div>
-                    </div>
-                    
                     <label class="label mt1">Tujuan </label>
                     <div class="select mt1">
                         <select>
                             {{index . "kotanyaoptionstr"}}
                         </select>
                     </div>
-                    <label class="label mt1">Dikembalikan di </label>
+                    <label class="label mt1">Drop off di </label>
                     <div class="select mt1">
                         <select>
                             {{index . "kotadikembalikannyaoptionstr"}}
                         </select>
                     </div>
+                    
+                    <div class="grid-row">
+                      <div class="grid-column mt1">
+                          <label class="label" for="waktupickup">Waktu pickup</label><br>
+                          <input type='text' name="waktupickup" id="waktupickup" class="datepicker-here" data-timepicker="true" data-language='en' data-position="right top" data-auto-close="true"  data-date-format='dd MM yyyy' data-time-format='hh:ii aa' style="width:100%;"/>
+                      </div>
+                    </div>
+                    <div class="grid-row">
+                      <div class="grid-column mt1">
+                          <label class="label" for="waktudropoff">Waktu Drop off</label><br>
+                          <input type='text' name="waktudropoff" id="waktudropoff" class="datepicker-here" data-timepicker="true" data-language='en' data-position="right top" data-auto-close="true"  data-date-format='dd MM yyyy' data-time-format='hh:ii aa' style="width:100%;"/>
+                      </div>
+                    </div>                    
                                         
                     <label class="label mt1">Merk mobil</label>
                     <div class="select mt1">
-                        <select>
+                        <select id="merkmobil" name="merkmobil">
                             {{index . "mobiloptions"}}
                         </select>
                     </div>
+                    
+                    <div class="grid-row">
+                      <div class="grid-column mt1">
+                          <label class="form-control" id="biaya"></label>
+                      </div>
+                    </div>
+                    
                     <label class="label mt1" for="message">Pesan</label>
                     <textarea class="form-control" id="message"></textarea>
                     <div class="align--right mt1">
@@ -193,5 +198,152 @@
         </div>
     </footer>
     </body>
+<script>
+function formatNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+}
+var mobils = {{index . "tabelmobils"}};
+function getindexmonth(str) {
+  thismonths = $.fn.datepicker.language['en'].months;
+  for (ik=0; ik< thismonths.length; ik++) {
+    if (thismonths[ik] == str) {
+      return ik;
+    }
+  }
+  return -1;
+}
+
+function days_between(date1, date2) {
+    var ONE_DAY = 1000 * 60 * 60 * 24;
+    var date1_ms = date1.getTime();
+    var date2_ms = date2.getTime();
+
+    var difference_ms = Math.abs(date1_ms - date2_ms);
+    var result = Math.round(difference_ms/ONE_DAY);
+    if (result < 0) result = result * -1;
+
+    return result;
+}
+
+function getMonth(str) {
+  strmotnh = "";
+  ix = 0;
+  looping = true;
+  strlen = str.length;
+  tgl = '';
+ 
+  while (looping && strlen > ix) {
+    stri = str.substring(ix, (ix+1));
+    if (stri == ' ') {
+      looping = false;
+    } else {
+      tgl+=stri;
+    }
+    ix++;
+  }
+  
+  looping = true;
+  while (looping && strlen > ix) {
+    stri = str.substring(ix, (ix+1));
+    if (stri == ' ') {
+      looping = false;
+    } else {
+      strmotnh += stri;
+    }
+    ix++;
+  }
+  
+  
+  yeari = '';
+  looping = true;
+  while (looping && strlen > ix) {
+    stri = str.substring(ix, (ix+1));
+    if (stri == ' ') {
+      looping = false;
+    } else {
+      yeari += stri;
+    }
+    ix++;
+  }
+  
+  hour = '';
+  looping = true;
+  while (looping && strlen > ix) {
+    stri = str.substring(ix, (ix+1));
+    if (stri == ':') {
+      looping = false;
+    } else {
+      hour += stri;
+    }
+    ix++;
+  }
+  
+  minute = '';
+  looping = true;
+  while (looping && strlen > ix) {
+    stri = str.substring(ix, (ix+1));
+    if (stri == ' ') {
+      looping = false;
+    } else {
+      minute += stri;
+    }
+    ix++;
+  }
+  
+  ampm = '';
+  looping = true;
+  while (looping && strlen > ix) {
+    ampm += str.substring(ix, (ix+1));
+    ix++;
+  }
+  if (ampm == 'pm') {
+    hour = parseInt(hour) +12;
+  }
+  
+  month = getindexmonth(strmotnh);
+  return new Date(yeari, month, tgl, hour, minute);
+}
+
+function getHargaSewa(id) {
+  var harga = 0;
+  $.each(mobils, function( index, value ) {
+    if (value.id == id) {
+      harga = value.sewa_perhari;
+      return false;
+    }
+  });
+  return harga;
+}
+
+function calculatePrice() {
+  waktupickup = $("#waktupickup").val();
+  waktudropoff = $("#waktudropoff").val();
+  merkmobilid = $("#merkmobil").val();
+  if (waktupickup.length > 0 && waktudropoff.length > 0) {
+    hari = days_between(getMonth(waktupickup), getMonth(waktudropoff));
+    harga = getHargaSewa(merkmobilid);
+    biaya = hari*harga;
+    $('#biaya').text("Sewa selama "+hari+" hari = Rp "+formatNumber(biaya));
+  }
+}
+
+$(function() {
+
+
+
+$("#waktupickup").blur(function(event){
+    calculatePrice();
+});
+$("#waktudropoff").blur(function(event){
+    calculatePrice();
+});
+
+$( "#merkmobil" ).change(function() {
+  calculatePrice();
+});
+
+
+});
+</script>
 </html>
 
